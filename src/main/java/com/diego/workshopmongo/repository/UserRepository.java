@@ -11,5 +11,4 @@ import com.diego.workshopmongo.domain.User;
 public interface UserRepository extends MongoRepository<User, String>{
 
 	User save(Optional<User> newObj);
-
 }
