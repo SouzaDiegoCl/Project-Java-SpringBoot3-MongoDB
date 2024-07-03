@@ -20,31 +20,37 @@ import com.diego.workshopmongo.services.UserService;
 
 @Controller
 @ResponseBody
-@RequestMapping(value="/users")
+@RequestMapping(value = "/users")
 public class UserResource {
-	
+
 	@Autowired
 	private UserService service;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<UserDTO>> findAll(){		
+	public ResponseEntity<List<UserDTO>> findAll() {
 		List<User> list = service.findAll();
 		List<UserDTO> listDTO = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<UserDTO> finById(@PathVariable String id){
+	public ResponseEntity<UserDTO> finById(@PathVariable String id) {
 		User obj = service.findById(id);
 		return ResponseEntity.ok().body(new UserDTO(obj));
 	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable String id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();// Retorna noContent porque em DELETE é 204 nao retorna nada
+	}
+
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody UserDTO objDTO){
+	public ResponseEntity<Void> insert(@RequestBody UserDTO objDTO) {
 		User obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 }
