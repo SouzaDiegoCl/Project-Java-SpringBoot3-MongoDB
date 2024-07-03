@@ -30,6 +30,16 @@ public class UserService {
 		return repository.insert(obj);
 	}
 	
+	public User update(User obj) {
+		Optional<User> tempObj = repository.findOne(obj.getId());
+		return repository.save(newObj);
+	}
+	
+	public void updateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+		
+	}
 	public void delete(String id) {
 		findById(id);
 		repository.deleteById(id);
