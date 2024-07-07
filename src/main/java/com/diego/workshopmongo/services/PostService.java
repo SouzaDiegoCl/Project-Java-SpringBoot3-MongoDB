@@ -1,5 +1,6 @@
 package com.diego.workshopmongo.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,5 +26,10 @@ public class PostService {
 		return repository.searchTitle(text);
 	}
 	
+	
+	public List<Post> fullSearch(String text, Date minData, Date maxData){
+		maxData = new Date(maxData.getTime() + 24 * 60 * 60 * 1000); //24 horas em milissegundos precisa multiplicar
+		return repository.fullSearch(text, minData, maxData);
+	}
 	
 }
