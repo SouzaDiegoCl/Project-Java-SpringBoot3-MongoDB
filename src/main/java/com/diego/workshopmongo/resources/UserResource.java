@@ -61,7 +61,7 @@ public class UserResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-
+	
 	@RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
 	public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
 		User obj = service.findById(id);
